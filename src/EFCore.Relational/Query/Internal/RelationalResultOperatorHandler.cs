@@ -528,7 +528,8 @@ namespace Microsoft.EntityFrameworkCore.Query.Internal
                             new SelectClause(groupResultOperator.ElementSelector),
                             handlerContext.QueryModel);
 
-                        if (selectExpression.Projection.Count > 1)
+                        if (groupResultOperator.ElementSelector is NewExpression
+                            || groupResultOperator.ElementSelector is MemberInitExpression)
                         {
                             selectExpression.ClearProjection();
                         }
@@ -580,7 +581,6 @@ namespace Microsoft.EntityFrameworkCore.Query.Internal
                         shapedQueryMethod.Arguments[0],
                         shapedQueryMethod.Arguments[1],
                         Expression.Constant(new ValueBufferShaper(groupResultOperator)));
-
                 }
             }
 
